@@ -1,0 +1,94 @@
+Question 1:
+
+(a) 
+
+"write(1, "Enter Name? ", 12)            = 12" -> LINE 4.
+
+"getpid()                                = 6372" -> LINE 5.
+
+"read(0, "tom\n", 1024)                  = 4" -> LINE 6.
+
+"write(1, "Hello tom\n", 10)             = 10" -> LINE 7.
+
+"write(1, " your PID = 6372\n", 17)      = 17" -> LINE 8.
+
+(b)
+
+LINE 4: 
+The printf("Enter Name? ") statement uses the system call write(). 
+The number 1 in the refers to the file descriptor.
+The number 12 and the return value refer to the number of bytes.
+
+LINE 5: 
+This is the system call getpid().
+The return value is the process ID.
+
+LINE 6: 
+The scanf("%s", buf) statement uses the system call read(). 
+The number 0 refers to the file descriptor. 
+"tom" is the user input.
+1024 refers to the maximum byte size that can be read. 
+The return value 4 refers to the number of bytes read.
+
+LINE 7:
+The printf("Hello %s\n", buf) statement uses the system call write().
+The number 1 refers to the file descriptor.
+The number 10 and the return value refer to the number of bytes printed.
+
+LINE 8: 
+The printf(" your PID = %d\n", pid) statement uses the system call
+write() to print out the process ID that was obtained in LINE 5. 
+The number 17 and the return value refer to the number of bytes printed.
+
+(c)
+
+Dynamic linking:
+There are various additional system calls, such as mmap and access. 
+This is because linking is done in runtime by the OS.
+
+A dynamic library is being used and is located in the directory:
+"/lib/x86_64-linux-gnu/libc.so.6".
+
+(d)
+
+exit(0) and no exit statement:
+The strace output is the same other than some minor differences in PID. 
+There is the 'do cleanup' registered in the exit handlers. 
+exit(0) flushes the I/O buffers, and also register some function to clean up before exiting.
+
+_exit(0):
+Program is terminated without flushing the I/O buffers and no cleanup is done.
+
+(e)
+
+When _IOLBF is used:
+The write() system calls are called in order. 
+When _IOFBF is used:
+The write() system calls are called only when the input has been entered
+by the user. 
+
+According to the setvbuf man page, _IOLBF uses a line buffer and
+sends output directly to the host system at every newline or when buffer is full. 
+_IOFBF uses full output buffering, where the output is passed onto the host system when this buffer is full.
+
+
+Question 2
+
+(a)
+
+The output is "csdae+" followed by the last three digits of PID of child process, and the last three digits of PID of parent process, and "=42\n".
+
+Everytime it is called, the process clones and the PID of the processes are different. Since the output is dependent on the PID, it is not deterministic.
+
+(b)
+
+The program prints "csdae+". 
+Then, it calls getpid() before cloning to form a new child process which has PID of one higher than the parent's PID.
+The child process prints out the last three digits of PID of child process, the last three digits of PID of parent process and a "=". 
+The parent process resumes after the child process terminates and finally prints out "42\n", where 42 refers to the exit code.
+
+(c)
+
+I guess 42 was a random number chosen, as any number can be programmed there.
+
+
