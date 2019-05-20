@@ -1,0 +1,6 @@
+\section{Memory Abstraction}
+\emph{int brk(void *end\_data\_segment):} how to deallocate?\\
+\emph{void *sbrk(ptrdiff\_t brk\_increment):} argument is signed integer, return previous break value.\\
+\emph{void *malloc(size\_t size):} returns pointer to new memory region of size bytes.\\
+\emph{void free(void *ptr):} ptr must have been originally from malloc/calloc.\\
+\emph{void *calloc(size\_t nitems, size\_t size):} sets allocated memory to zero (malloc doesn't).

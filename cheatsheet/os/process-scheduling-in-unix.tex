@@ -1,0 +1,16 @@
+\section{Process Scheduling in Unix}
+\subsection*{Traditional Unix Process Priority}
+\emph{nice:} -20 to 19, default 0. priority=base+f(nice)+g(cpu usage estimate), g() is decay factor to reduce importance of long process.
+
+\subsection*{Multi-level Feedback Queues}
+Dynamic adjustments with scheduling heuristics: age of proc, I/O boost (for interactive process), boost priority of foreground window (WinNT), system load effects.
+
+\subsection*{Linux Scheduling}
+\emph{Multi-level feedback queue:} level 0: Normal Time Sharing (SCHED\_OTHER). level 1 to 99: Real-time FIFO(SCHED\_FIFO) and Real-time Round Robin (SCHED\_RR).\\
+\emph{SCHED\_FIFO:} scheduling occurs only when higher priority RT arrives or voluntary yield. (timer interrupt used only for high priority to preempt).\\
+\emph{SCHED \_RR:} preemptive. Preemption by higher priority RT tasks also.\\
+\emph{SCHED\_OTHER:} nice priorities + dynamic feedback adjustments. Only run if no RT task ready.\\
+Static priorities (RT priorities) not changed by scheduler, dynamic priority used for SCHED\_OTHER tasks and changed by system. -> Static RT priority > Dynamic priority
+
+\subsection*{Tickless}
+In new Linux kernels+WinNT. Only use timer interrupt when needed (not in sleep mode, adjust tick to next closest timer event). Tickless isn't no ticks but dynamic ticks.

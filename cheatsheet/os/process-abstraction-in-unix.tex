@@ -1,0 +1,9 @@
+\section{Process Abstraction in Unix}
+\emph{void exit(int status):} released on exit: memory, file descriptors. not yet releasable: PID, status, process accounting info, PTE. Child processes are inherited by init process. Parent sent SIGCHLD signal, status returned to parent using wait(). Cleanup: flush and close open streams from C stdio. Calls (several) exit handlers specified by program. Calls \_exit(status) after standard C cleanup.
+
+\subsection*{Parent-Child Synchronization}
+\emph{int wait(int *status):} Returns PID of terminated child. Parent blocks until at least one child terminates. Cleans up remainder of child system resources. Kill zombie process. \emph{waitid():} Wait for any child process to change status.\\
+\emph{init process:} Created in kernel at boot up time (PID=1). \emph{Zombie process:} Parent terminates before child, init becomes 'pseudo' parent, init utilizes wait() to cleanup, or; Child terminates before parent but parent didn't call wait(), child process becomes zombie, can fill up process table, may need reboot.
+
+\subsection*{Implementation Issues on fork()}
+Copy on Write: duplicate a page when it is written to; otherwise parent and child share the same page. CoW with paged VM: Share single page by having PTEs with same frame. Share read-only pages. Duplicate and make new page copy on write, PTE changed to new page and make page writable.

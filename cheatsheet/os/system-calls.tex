@@ -1,0 +1,7 @@
+\section{System Calls}
+\subsection*{General System Call Mechanism}
+Library call places the syscall \# in designated register, executes TRAP/SYSCALL to switch from user mode to kernel mode. Dispatcher determines syscall handler using syscall \# as index. Syscall handler executed, return control to library call and switch to user mode when finished.
+
+\subsection*{Exception and Interrupts}
+\emph{Exception:} Synchronous (error in program execution).\emph{Interrupt:} Asynchronous. Some portion of state saving done by hardware. Save state/registers in special interrupt stack.  Usually special return from interrupt instruction. Non-maskable interrupt - always handled; Maskable interrupt - can be enabled or disabled (x86: CLI, STI). Vectored interrupt - array of interrupt handlers called by indexing interrupt \# (x86: int n). General interrupt handler - some way to determine type (using 'cause' register)\\
+int system(const char *command\_line): creates a shell to run command line.

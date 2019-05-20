@@ -1,0 +1,16 @@
+\section{Contiguous Memory Allocation}
+\subsection*{Contiguous Memory Management}
+\emph{Fixed-size partition:} (-) internal fragmentation. (-) external fragmentation (total unused memory > request size but no partition fits)\\
+\emph{Dynamic partition:} OS keeps track of occupied and free regions, performs splitting and merging. (+) no internal fragmentation (by splitting). (-) external fragmentation\\
+\emph{Relocation \& compaction:} Move partitions around to remove external fragmentation. (-) data which are addresses may refer to wrong address after relocation.
+
+\subsection*{Dynamic Memory Allocation Algorithms}
+\emph{Sequential Fit:} In free block: doubly linked list+size=~3 words for bookkeeping (minimum free block size)\\
+First fit: (-) front list split more, many small blocks at start\\
+Best fit: find smallest fitting block. (-) need searching whole list. (-) bad external fragmentation with many tiny blocks. (+) experimentally good memory use results.\\
+Next fit: search from previously searched position. (+) avoids accumulation of small blocks at start. (-) poor locality affects caches.\\
+Freeing a block: boundary tag optimization can coalesce in constant time.\\
+\emph{Buddy System:}\\
+avail[i] records a free list of blocks of size $2^i$ (NULL means no free blocks). Splitting $xx..xx00..00$ ->$xx..xx00..00$ and $xx..xx10..00$. Find buddies for block of size $2^i$ -> flip bit at position $i+1$ from right to find buddy address. May have smallest allocated block size. (avail[0] for illustration)\\
+Buddy allocation n: find smallest i for $2^i \geqslant n$. If avail[i] not empty, select free block there; else, find free block $b$ from smallest avail[k] where $k>i$, split $b$ until avail[i] has block.\\
+Buddy deallocation p: find buddy p'. If p' not free, add p to avail list; else, coalesce p and p' and free it recursively.

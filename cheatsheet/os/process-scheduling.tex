@@ -1,0 +1,23 @@
+\section{Process Scheduling}
+OS incurs overhead in context switch. Batch processing, Interactive, Real time processing.
+
+\subsection*{Scheduling for Batch Processing}
+\emph{Criteria:} turnaround time (finish-arrival time), throughput (number of tasks finished per unit time), CPU utilization\\
+\emph{First-Come First-Served (FCFS):} Blocked task removed from FIFO queue, only placed at back of queue when it's ready again. (+) No stavation.(-) Convoy effect (First task is CPU-Bound and followed by a number of IO-Bound tasks).\\
+\emph{Shortest Job First (SJF):} $Predicted_{n+1}=\alpha Actual_n + (1-\alpha)Predicted_n$ (+) Smallest average waiting time. (-) Starvation possible (for long job).\\
+\emph{Shortest Remaining Time (SRT):} New job with shorter remaining time can preempt current job. (Good service for short job even when arriving late)
+
+\subsection*{Scheduling for Interactive Systems}
+Preemptive, scheduler runs periodically (from timer interrupt).\\
+\emph{Criteria:} response time, predictability (less variation in resp time).\\
+\emph{Round Robin (RR):} Preemptive version of FCFS (ready tasks placed at back of queue, blocked tasks moved to other queue). (+) Reponse time guarantee - n tasks quantum q, time before a task gets CPU bounded by $(n-1)q$. Big quantum: better CPU utilization, longer waiting time. Small quantum: Bigger overhead, shorter waiting time.\\
+\emph{Priority Scheduling:} Preemptive version: high priority proc can preempt running proc. Non-preemptive version: late coming high priority proc has to wait for next round of schduling. (-) Low priority proc can starve (worse in preemptive) -> decrease prioirty of current proc after each time quantum. (-) Hard to control CPU time. (-) Priority inversion: Lower priority task preempts higher priority task (high priority task requires resources locked by even lower priority task).\\
+\emph{Multi-level Feedback Queue (MLFQ):} Adaptive, reduce reponse time for IO-bound process, turnaround time for CPU bound process.\\
+Basic rules:\\
+Priority(A) > Priority(B) -> A runs\\
+Priority(A) == Priority(B) -> A, B in RR\\
+Priority setting/changing rules:\\
+New job -> Highest priority\\
+Use up timeslice -> Priority reduced\\
+Give up/blocks -> Priority retained\\
+\emph{Lottery Scheduling:} Give out 'lottery tickets' to processes for various system resources. Choose ticket randomly and grant winner the resource. (+) Responsive. (+) Good lvl of control (parent gives tickets to child). (+) Simple implementation.

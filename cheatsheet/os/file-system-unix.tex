@@ -1,0 +1,8 @@
+\section{File System Unix}
+\emph{unified I/O:} many types of files but same syscalls: data, pipe, devices, proc...\\
+int open(char *path, int flags [, mode]): returns -1 if fail, >=0 for file descriptor. mode is new file permissions. Open checks permissions. Default fd: STDIN(0), STDOUT(1), STDERR(2)\\
+\emph{fd sharing:} After fork, fd value is copied, internal kernel file object and file offset are shared.\\
+int read(int fd, void *buf, int n): return no. of bytes read, <n means reach EOF. sequential read.\\
+int write(int fd, void *buf, int n): return -1 if error(exceeds file size limit, quota, disk space), >=0 for no. of bytes written. sequential write.\\
+off\_t lseek(int fd, off\_t offset, int whence): Random I/O. Move file offset, return -1 if error, >=0 for absolute offset. Offset can be +ve or -ve, whence can be SEEK\_SET, SEEK\_CUR, SEEK\_END. Can create holes with implicit zeroes.\\
+int close(int fd): fd can be reused later. Process termination automatically closes all open files.
